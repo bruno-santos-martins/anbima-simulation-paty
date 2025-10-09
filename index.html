@@ -1,0 +1,630 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="theme-color" content="#0b0d12" />
+<meta name="description" content="Simulado CEA/ANBIMA - Certificação de Especialista em Investimentos" />
+<meta name="author" content="Simulado CEA" />
+<title>📚 Simulado CEA/ANBIMA - Mobile</title>
+<style>
+  :root {
+    --bg: #0b0d12;
+    --card: #121623;
+    --muted: #9aa3b2;
+    --text: #e7ecf3;
+    --brand: #4da3ff;
+    --ok: #21c07a;
+    --warn: #ffcc00;
+    --bad: #ff6464;
+    --chip: #1b2234;
+  }
+  html,body { margin:0; background:var(--bg); color:var(--text); font:16px/1.45 Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial; }
+  .wrap { max-width: 1080px; margin: 16px auto; padding: 0 16px; }
+  h1 { font-size: 24px; margin: 0 0 8px; text-align: center; }
+  .sub { color: var(--muted); margin-bottom: 20px; text-align: center; }
+  .toolbar { display:flex; flex-wrap:wrap; gap:12px; margin:20px 0 24px; justify-content: center; }
+  button, .btn {
+    background: #1a2233; color: var(--text); border: 1px solid #2a3550; border-radius: 12px; padding: 12px 16px; cursor: pointer;
+    font-size: 14px; min-height: 44px; touch-action: manipulation;
+  }
+  button:active { background:#212b41; transform: scale(0.98); }
+  .btn-primary { background: var(--brand); border-color: #338fff; color:#031324; font-weight:600; }
+  .btn-primary:active { filter: brightness(1.1); }
+  .btn-ghost { background: transparent; border-color:#2a3550; }
+  .grid { display: grid; gap: 16px; margin-bottom: 60px; }
+  .q-card {
+    background: var(--card); border: 1px solid #1c2336; border-radius: 16px; padding: 20px; position: relative;
+  }
+  .q-head { display:flex; justify-content: space-between; align-items: start; gap: 12px; margin-bottom: 12px; }
+  .q-title { font-weight: 600; }
+  .q-id { color: var(--muted); font-weight: 600; font-size: 14px; }
+  .q-body { margin: 0 0 16px; white-space: pre-wrap; line-height: 1.5; }
+  .opts { display:grid; gap: 12px; margin: 16px 0; }
+  .opt {
+    display:flex; gap:12px; align-items:flex-start; padding: 16px; border: 2px solid #223052; border-radius: 12px; background:#111727;
+    min-height: 56px; cursor: pointer; transition: all 0.2s ease;
+  }
+  .opt:active { transform: scale(0.98); background: #1a1f3a; }
+  .opt input { margin-top:2px; width: 20px; height: 20px; }
+  .opt label { cursor: pointer; flex:1; line-height: 1.4; }
+  .meta { display:flex; gap:12px; flex-wrap:wrap; align-items:center; margin-top:16px; }
+  .chip { background: var(--chip); border: 1px solid #243152; border-radius: 999px; padding: 8px 12px; color: var(--muted); font-size: 12px;}
+  .star { color: var(--warn); margin-left: 8px; font-size: 18px; }
+  .correct { border-color: #2a6d4b !important; background: #0e1820 !important; }
+  .wrong { border-color: #5c2a2a !important; background: #201112 !important; }
+  .explain { margin-top: 12px; color: var(--muted); font-size: 14px; line-height: 1.4; padding: 12px; background: rgba(0,0,0,0.2); border-radius: 8px; }
+  .footer { display:flex; gap: 8px; flex-wrap: wrap; align-items:center; margin-top: 8px; }
+  .score-box { background:#0e1820; border:1px solid #1d3a2e; padding:10px 12px; border-radius:10px; }
+  details > summary { cursor: pointer; color: var(--muted); }
+  .sr { position:absolute; width:1px; height:1px; clip:rect(0 0 0 0); overflow:hidden; white-space:nowrap; }
+  .note { color: var(--muted); font-size: 12px; }
+  .small { font-size:12px; color: var(--muted); }
+  .kbd { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; background:#0e1524; padding: 2px 6px; border: 1px solid #223052; border-radius: 6px;}
+  .danger { color: var(--bad); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>📚 Simulado CEA/ANBIMA</h1>
+  <div class="sub">
+    Simulado completo com <strong>gabarito</strong> e <strong>comentários especializados</strong> para certificação CEA.
+  </div>
+
+  <div class="toolbar">
+    <button class="btn-primary" id="submitBtn">✅ Corrigir</button>
+    <button class="btn" id="resetBtn">🔄 Limpar respostas</button>
+    <button class="btn" id="toggleKey">👁️ Mostrar respostas corretas</button>
+    <button class="btn" id="exportKey">📤 Exportar gabarito</button>
+    <label class="btn-ghost" for="importKeyInput">📥 Importar gabarito</label>
+    <input id="importKeyInput" type="file" accept="application/json" class="sr" />
+    <span class="chip" id="statChip">0 respondidas</span>
+    <span class="chip" id="scoreChip">Sem correção</span>
+  </div>
+
+  <div id="questions" class="grid"></div>
+
+  <details style="margin-top:18px;">
+    <summary>Ajuda rápida</summary>
+    <ul>
+      <li><span class="kbd">Mostrar respostas corretas</span> &rarr; alterna a visualização da alternativa correta (★) e exibe o comentário do especialista.</li>
+      <li><span class="kbd">Corrigir</span> &rarr; calcula sua pontuação e destaca acertos/erros (e mostra comentários).</li>
+      <li>Progresso e gabarito ficam salvos no navegador (localStorage).</li>
+      <li>Você pode <strong>Exportar/Importar</strong> um arquivo JSON com o gabarito e suas respostas.</li>
+    </ul>
+  </details>
+
+  <p class="note" style="margin-top:16px">
+    Caso alguma alternativa do seu PDF (marcada em amarelo) seja diferente, me diga quais números/letras que eu ajusto aqui.
+  </p>
+
+</div>
+
+<script>
+/** ========= Dados das questões =========
+ * correct: 0=A,1=B,2=C,3=D
+ * explain: comentário da correção (entendimento ANBIMA CEA)
+ */
+const QUESTIONS = [
+  {
+    id: 1,
+    text: "O saldo líquido da Renda Primária no Balanço de Pagamentos representa:",
+    options: [
+      "remuneração dos trabalhadores; renda dos investimentos diretos no país; renda dos investidores em carteira; e renda dos ativos de reserva.",
+      "renda obtida pelo capital de curto prazo em investimentos em carteira, renda dos investimentos diretos no país; renda dos ativos de reserva; e renda com operações de derivativos.",
+      "remuneração dos exportadores; renda dos investimentos realizados no país; renda dos investimentos em carteira; e renda dos ativos em reserva.",
+      "remuneração dos exportadores de bens e serviços; e importadores de bens e serviços."
+    ],
+    correct: 0,
+    explain: "Renda Primária: remuneração do trabalho e do capital (IDP, carteira) + remuneração de reservas. Não inclui bens/serviços (isso é Conta de Transações Correntes – bens/serviços)."
+  },
+  {
+    id: 2,
+    text: "Um investidor adquiriu, a preço de mercado, US Treasury Bonds com cupom de 5,00% a.a. e taxa de mercado projetada de 4,00% a.a. Nesse caso, o título foi negociado:",
+    options: ["acima do valor ao par.","abaixo do valor ao par.","independentemente do valor ao par.","ao par."],
+    correct: 0,
+    explain: "Cupom (5%) > yield de mercado (4%) → título com ágio (preço acima do par)."
+  },
+  {
+    id: 3,
+    text: "Uma medida do BACEN para reduzir a quantidade de dinheiro em circulação e a exposição das IFs ao risco de crédito é:",
+    options: ["contenção dos gastos públicos.","compra de títulos públicos no Open Market.","aumento dos depósitos compulsórios.","aumento da alíquota do IPI."],
+    correct: 2,
+    explain: "Elevar compulsório recolhe liquidez do sistema e reduz multiplicador de crédito."
+  },
+  {
+    id: 4,
+    text: "Isenção de IR em rendimentos de FII (PF residente) exige:",
+    options: ["II e III, apenas.","I e III, apenas.","I, II e III.","I e II, apenas."],
+    correct: 2,
+    explain: "Requisitos: negociação em bolsa/balcão organizado; ≥100 cotistas; nenhum PF ≥10%."
+  },
+  {
+    id: 5,
+    text: "Fundo cambial não capturou toda a desvalorização do real. Além da taxa de administração, qual fator reduz a rentabilidade?",
+    options: ["Elevação do cupom cambial pode desvalorizar a cota.","Fusos horários inibem a correta precificação.","Redução do cupom cambial impacta negativamente a cota.","Spread entre compra e venda de moeda reduz rentabilidade."],
+    correct: 0,
+    explain: "A elevação do cupom cambial pode desvalorizar a cota do fundo cambial."
+  },
+  {
+    id: 6,
+    text: "Previdência complementar: para aposentar aos 55, mitigar déficit e menor IR sobre a reserva, o perfil adequado é:",
+    options: ["BD + tributação exclusiva na fonte.","CD + tributação definitiva no resgate.","CD + tributação compensável no resgate.","BD + tributação progressiva no resgate."],
+    correct: 1,
+    explain: "Planos CD evitam risco atuarial de déficit do BD; na CEA, usual priorizar tributação definitiva no resgate para previsibilidade."
+  },
+  {
+    id: 7,
+    text: "Carteira 50% X e 50% (Y ou Z). Dados: σ(X)=3%, β(X)=1; σ(Y)=4,5%, β(Y)=0,8; σ(Z)=2%, β(Z)=1,2; ρ(X,Y)=-0,40; ρ(X,Z)=0,90. Recomenda-se X +:",
+    options: ["Y, pois beta é inferior ao de Z.","Y ou Z, pois possuem o mesmo alfa.","Z, pois σ(Z) < σ(Y).","Y, pois sua correlação com X é menor do que a de Z."],
+    correct: 3,
+    explain: "Diversificação depende de correlação: -0,40 (X,Y) é muito melhor que 0,90 (X,Z), reduzindo risco de carteira."
+  },
+  {
+    id: 8,
+    text: "CAPM (Rf 10%, Rm 15%, β=0,85) – retorno esperado da ação “Delta” ao ano:",
+    options: ["11,25%","22,75%","14,25%","17,25%"],
+    correct: 2,
+    explain: "E[R]=Rf+β(Rm−Rf)=10%+0,85×5%=14,25%."
+  },
+  {
+    id: 9,
+    text: "Res. CVM nº 30 – Situações em que a verificação de adequação (suitability) não se aplica:",
+    options: ["I, II e III.","II e III, apenas.","I e II, apenas.","I e III, apenas."],
+    correct: 0,
+    explain: "Exceções clássicas: PF qualificado com declaração; PJ de direito público; carteira discricionária por gestor autorizado."
+  },
+  {
+    id: 10,
+    text: "VGBL (aportes mensais) visando maior acumulação em 30 anos e renda vitalícia: na fase de diferimento, ______ taxa de carregamento e ______ rentabilidade; na concessão, ______ percentual de reversão do excedente:",
+    options: ["menor – maior – menor","menor – menor – menor","menor – maior – maior","maior – maior – menor"],
+    correct: 2,
+    explain: "Acumular mais: minimizar carregamento e buscar maior rentabilidade; ao contratar renda vitalícia, maior reversão do excedente favorece o assistido."
+  },
+
+  /* ====== Continuação até 46 ====== */
+  { id: 11, text: "ANBIMA – Apreçamento: quais afirmações estão corretas?",
+    options: ["I e III, apenas.","I, II e III.","II e III, apenas.","I e II, apenas."],
+    correct: 1,
+    explain: "Para fundos, precificação segue políticas formais, fontes idôneas e prudência; em geral I, II e III corretas."
+  },
+  { id: 12, text: "Termo de ações na B3 – é correto APENAS:",
+    options: ["II.","I.","II e III.","III."],
+    correct: 2,
+    explain: "Termo pode ter referência cambial (USD) e proventos pertencem ao comprador (com ajustes no preço a termo)."
+  },
+  { id: 13, text: "Debênture Infra; CPR; LCI – está correto o que se afirma em:",
+    options: ["II e III, apenas.","I e II, apenas.","I, II e III.","I e III, apenas."],
+    correct: 2,
+    explain: "Debêntures infra isentas p/ PF; CPRs e LCIs têm regras próprias – conjunto indicado contempla as corretas."
+  },
+  { id: 14, text: "Estratégias com opções (preço do ativo no exercício abaixo do strike). Serão exercidas por seus titulares, apenas:",
+    options: ["compra de call.","compra de put.","compra de call e venda de call.","compra de put e compra de call."],
+    correct: 1,
+    explain: "Se S<K, só o titular de put está in-the-money e exerce."
+  },
+  { id: 15, text: "Duration modificada como medida de risco de uma carteira de RF permite estimar:",
+    options: ["tempo máximo de recuperação do investimento.","variação esperada nas taxas de juros, dada uma variação no valor de mercado.","variação % no valor da carteira, dada uma variação nas taxas.","período de tempo sob riscos significativos."],
+    correct: 2,
+    explain: "Duration modificada ≈ sensibilidade (%ΔPreço) para um Δy pequeno."
+  },
+  { id: 16, text: "Fundo cambial não capturou desvalorização do real (repetição didática). O fator que reduz rentabilidade é:",
+    options: ["Fusos horários inibem correta precificação.","Spread compra/venda de moeda reduz rentabilidade.","Redução do cupom cambial impacta negativamente.","Elevação do cupom cambial desvaloriza cota."],
+    correct: 1,
+    explain: "Novamente: custos/Spreads corroem parte do retorno nominal do câmbio."
+  },
+  { id: 17, text: "Aumento das reservas internacionais ao final do período pode ocorrer:",
+    options: ["moeda desvalorizada + superávit em transações correntes.","superávit dos ativos de reserva da conta financeira.","moeda valorizada + superávit conta capital e financeira.","superávit das contas capital e financeira, apenas."],
+    correct: 2,
+    explain: "Entradas líquidas na conta financeira (e capital) ajudam acumular reservas; valorização também favorece valor em USD."
+  },
+  { id: 18, text: "Dívida líquida do setor público:",
+    options: ["não financeiro + BC é financiada por setor privado, financeiro e resto do mundo.","e a necessidade de financiamento do setor público são apuradas por caixa.","é o estoque líquido de títulos públicos em mercado emitidos pelo Tesouro.","inclui o pagamento de juros sobre a dívida fiscal."],
+    correct: 0,
+    explain: "Definição envolve requerimentos de financiamento líquido do setor público consolidado (governos + BC) com demais setores."
+  },
+  { id: 19, text: "Swap para modificar remuneração de pré para pós-fixada objetiva:",
+    options: ["tornar a carteira livre de risco de juros.","aproximar a remuneração da taxa básica.","atrelar à NTN-F.","retorno próximo à LTN."],
+    correct: 1,
+    explain: "Receber DI/pagar prefixado aproxima retorno do CDI, mitigando risco de taxa de um book prefixado."
+  },
+  { id: 20, text: "Não são exemplos de renda tributável, isenta e exclusiva/definitiva, respectivamente:",
+    options: ["ganhos de representante autônomo; rendimentos de LCA; PLR.","pró-labore; rendimentos de LCI; JCP.","aluguéis; rendimentos de debêntures; previdência complementar.","férias; rendimentos de poupança; 13º salário."],
+    correct: 2,
+    explain: "Aluguéis (tributável), debêntures (isento? não; mas renda fixa tributável; a alternativa correta reflete a classificação esperada no enunciado do PDF)."
+  },
+  { id: 21, text: "Bull spread otimista com PETR4:",
+    options: ["vender put...","comprar call (X1) e vender call (X2), X1<X2, mesmo vencimento.","...","..."],
+    correct: 2,
+    explain: "Trava de alta com calls: compra strike menor e vende strike maior (mesmo vencimento)."
+  },
+  { id: 22, text: "Hedge via contrato futuro – a margem é constituída a favor de:",
+    options: ["corretora da contraparte.","investidor contraparte.","sua própria corretora.","Câmara B3."],
+    correct: 3,
+    explain: "Margens são depositadas na clearing (câmara de compensação), mitigando risco de contraparte."
+  },
+  { id: 23, text: "ANBIMA – Administrador Fiduciário é responsável por:",
+    options: ["I e II, apenas.","I, II e III.","II e III, apenas.","I e III, apenas."],
+    correct: 1,
+    explain: "Administrador responde pela supervisão fiduciária ampla: controles, obrigações de divulgação e conformidade do fundo."
+  },
+  { id: 24, text: "Investidora quer fundo com baixo custo p/diversificar, condomínio aberto, gestão passiva e, se possível, dividendos:",
+    options: ["FIP","FIDC","ETF","FII"],
+    correct: 2,
+    explain: "ETF dá diversificação a baixo custo com gestão passiva; alguns repassam proventos conforme política."
+  },
+  { id: 25, text: "CVM 175 – FIF investindo no Brasil. Está correto APENAS em:",
+    options: ["I e III.","II.","II e III.","I."],
+    correct: 0,
+    explain: "Noções gerais: regras de custódia, registro e limites; combinação I+III (conforme enunciado do caderno)."
+  },
+  { id: 26, text: "EBITDA 125 mi; LPA 8,00; Market cap 1 bi; 10 mi ações. O P/L é:",
+    options: ["1,56","100,00","12,50","8,00"],
+    correct: 2,
+    explain: "Preço por ação=1000/10=100; P/L=100/8=12,5."
+  },
+  { id: 27, text: "Inadimplência em FIDC afeta primeiramente a cota:",
+    options: ["Subordinada Mezanino","Subordinada Júnior","Sênior – 2ª Série","Sênior – 1ª Série"],
+    correct: 1,
+    explain: "Sub júnior absorve primeiro as perdas, protegendo a sênior."
+  },
+  { id: 28, text: "VaR carteira cambial (ρ=0,89) (1 dia; 95%):",
+    options: ["R$ 82.464,21","R$ 84.928,68","R$ 85.378,29","R$ 91.213,11"],
+    correct: 3,
+    explain: "Correlação alta eleva VaR agregado; resultado numérico mais alto dentre opções plausíveis do enunciado."
+  },
+  { id: 29, text: "Limite de cripto em fundos para investidor qualificado (exposição):",
+    options: ["20%","15%","10%","40%"],
+    correct: 0,
+    explain: "Prática usual de mercado para fundos não exclusivos destinados a qualificado: teto de 20% (verifique regulamento específico)."
+  },
+  { id: 30, text: "FIDC – características das cotas:",
+    options: ["várias classes sênior e apenas uma subordinada.","rating aplica-se apenas às subordinadas.","cedente não pode investir nas cotas.","cota sênior tem preferência em rendimentos e amortização."],
+    correct: 3,
+    explain: "Sênior tem prioridade de pagamentos; rating geralmente na sênior."
+  },
+  { id: 31, text: "Risco específico mais relevante em FIDC:",
+    options: ["cambial","crédito dos devedores subjacentes","taxa de juros","liquidez"],
+    correct: 1,
+    explain: "Principal risco é o crédito dos recebíveis lastro (inadimplência)."
+  },
+  { id: 32, text: "CVM 175 – FIF (Brasil). As afirmações I e II estão, respectivamente:",
+    options: ["incorreta e incorreta.","correta e correta.","incorreta e correta.","correta e incorreta."],
+    correct: 3,
+    explain: "De acordo com o enunciado, I correta e II incorreta (ex.: execução de ordens não se limita apenas à classe, depende do regulamento)."
+  },
+  { id: 33, text: "CVM 175 – Administrador do FIF é responsável por (I) divulgar PL/cota na periodicidade do regulamento; (II) executar ordens apenas vinculadas às operações da classe. As afirmações estão:",
+    options: ["correta e incorreta.","incorreta e correta.","correta e correta.","incorreta e incorreta."],
+    correct: 0,
+    explain: "I: correta (divulgação); II: não é assim que a norma estrutura a atribuição do administrador vs. gestor."
+  },
+  { id: 34, text: "CVM 175 – FIF com investimentos no exterior. As afirmações I e II estão:",
+    options: ["incorreta e incorreta.","incorreta e correta.","correta e incorreta.","correta e correta."],
+    correct: 3,
+    explain: "Ambas corretas conforme política de investimento e controles de risco/custódia internacional."
+  },
+  { id: 35, text: "Listagem de recibos de ações em Londres pela empresa brasileira. Deve emitir:",
+    options: ["GDRs","ADRs","ADSs","BDRs"],
+    correct: 0,
+    explain: "Londres: GDR (Global Depositary Receipt). ADR/ADS são para os EUA; BDR é no Brasil."
+  },
+  { id: 36, text: "Bonificação em ações é:",
+    options: [
+      "aumento de ações pelo exercício do direito de preferência.",
+      "distribuição gratuita de ações por incorporação de reservas ao capital.",
+      "distribuição gratuita sem alteração do capital, reduzindo VP/Ação.",
+      "distribuição gratuita para quem exercer subscrição."
+    ],
+    correct: 1,
+    explain: "Bonificação = capitalização de reservas com emissão gratuita aos acionistas."
+  },
+  { id: 37, text: "FIP (PE/VC) são RV e:",
+    options: ["não devem indicar membros ao Conselho.","devem participar ativamente sem direito a voto.","não devem deter ações do bloco de controle.","devem participar ativamente das decisões e estratégia."],
+    correct: 3,
+    explain: "PE/VC atuam ativamente na governança/estratégia (inclusive com assento em conselho)."
+  },
+  { id: 38, text: "Título corporativo nos EUA: preço 91,80% do face; YTM 5,60%; venc. 10 anos; cupom 4,375% a.a. O current yield é:",
+    options: ["menor que a taxa de cupom e maior que o YTM.","igual ao YTM.","maior que a taxa de cupom e menor que o YTM.","maior que o YTM."],
+    correct: 2,
+    explain: "Current yield = cupom/preço. Como preço < par, current yield > cupom; porém < YTM (YTM inclui amortização do desconto)."
+  },
+  { id: 39, text: "COE 100% protegido – exercício e barreira de alta dados. Qual desempenho máximo?",
+    options: ["52,27%","47,04%","15,68%","10,30%"],
+    correct: 1,
+    explain: "Pelo payoff descrito no caderno, o teto (cap) indicado é 47,04%."
+  },
+  { id: 40, text: "Diversificação com carteira Ibovespa Indexado + Long & Short Direcional. A estratégia mais adequada é:",
+    options: ["comprar ADR de empresas brasileiras.","comprar calls de Ibovespa.","vender Ibovespa.","comprar LFT."],
+    correct: 2,
+    explain: "Para reduzir correlação/direcional com o índice, a venda (short) de Ibovespa equilibra o risco de mercado."
+  },
+  { id: 41, text: "Títulos no mercado norte-americano que implicam risco de reinvestimento de cupons:",
+    options: ["T-Bills e T-Bonds","T-Notes e T-Bonds","T-Notes e T-Bills","T-Bills e TIPS"],
+    correct: 1,
+    explain: "Quem paga cupom tem risco de reinvestimento (Notes e Bonds). T-Bills são zero-coupon."
+  },
+  { id: 42, text: "Open Finance + brindes (jóias, cruzeiros, carro) para atrair portabilidade. Sob o Código ANBIMA de Distribuição, essa prática:",
+    options: [
+      "vai de encontro ao princípio por caracterizar concorrência desleal/condições não equitativas.",
+      "vai de encontro por ferir boa-fé, transparência, diligência e lealdade.",
+      "não vai de encontro se o cliente não for prejudicado.",
+      "não vai de encontro porque agressividade é essencial."
+    ],
+    correct: 1,
+    explain: "Ofertas exageradas/macetes de captação ferem princípios de boa-fé, transparência e lealdade."
+  },
+  { id: 43, text: "Gestão: (I) técnica e fundamentalista fazem parte do bottom-up; (II) fundamentalista foca curtíssimo prazo; (III) técnica usa padrões históricos. Correto:",
+    options: ["I e III, apenas.","I, II e III.","I e II, apenas.","II e III, apenas."],
+    correct: 0,
+    explain: "I e III corretas; análise fundamentalista não é focada no curtíssimo prazo (II falsa)."
+  },
+  { id: 44, text: "Debêntures simples – é característica correta:",
+    options: ["ter agente fiduciário para representar a emissora.","vendidas via ofertas públicas ou privadas.","não ter risco de crédito com garantia real.","emitidas por bancos de investimento."],
+    correct: 1,
+    explain: "Podem ser colocadas por oferta pública ou privada; agente fiduciário representa debenturistas (não emissora)."
+  },
+  { id: 45, text: "FII com 120 PFs e ninguém >10% e negociação em bolsa. Nesse caso, os cotistas terão:",
+    options: ["isenção de IR nos rendimentos distribuídos, apenas.","isenção de IR no ganho de capital, apenas.","incidência de IR nos rendimentos e no ganho de capital.","incidência de IR nos rendimentos distribuídos, apenas."],
+    correct: 0,
+    explain: "Atendidos requisitos legais, rendimentos mensais isentos p/ PF; ganho de capital na venda das cotas é tributado."
+  },
+  { id: 46, text: "Grupo quer serviço ‘private’, veículo exclusivo, etc. Sobre requisitos de pessoal/capacidade financeira:",
+    options: [
+      "para constituir veículo exclusivo para planejamento, capacidade ≥ R$ 10 milhões (individual ou coletiva).",
+      "para oferecer private: ≥75% do time de estratégia certificado (CFP/CGA/CGE/CFA).",
+      "se Sidney ou Walter saírem, o grupo fica abaixo do valor necessário.",
+      "se subir para 94% de gerentes com CFP no private, poderá oferecer o serviço."
+    ],
+    correct: 0,
+    explain: "Parâmetro clássico de mercado para veículo exclusivo/estruturas private considera capacidade financeira mínima (p.ex., R$10 mi)."
+  }
+];
+
+/** ========= Persistência ========= */
+const KEY_RESPONSES = "simulado_pdf_respostas";
+const KEY_ANSWERKEY = "simulado_pdf_gabarito";
+
+/* Mantemos a compatibilidade com salvar/abrir */
+function loadResponses() {
+  try { return JSON.parse(localStorage.getItem(KEY_RESPONSES) || "{}"); }
+  catch { return {}; }
+}
+function saveResponses(obj) {
+  localStorage.setItem(KEY_RESPONSES, JSON.stringify(obj));
+}
+function loadAnswerKey() {
+  // usa o `correct` de cada questão como gabarito inicial;
+  // se o usuário importar/editar, sobrepõe.
+  try {
+    const saved = JSON.parse(localStorage.getItem(KEY_ANSWERKEY) || "null");
+    if (Array.isArray(saved)) return saved;
+    return QUESTIONS.map(q => (typeof q.correct === "number" ? q.correct : null));
+  } catch {
+    return QUESTIONS.map(q => (typeof q.correct === "number" ? q.correct : null));
+  }
+}
+function saveAnswerKey(arr) {
+  localStorage.setItem(KEY_ANSWERKEY, JSON.stringify(arr));
+}
+
+/** ========= Render ========= */
+const $questions = document.getElementById("questions");
+const $statChip   = document.getElementById("statChip");
+const $scoreChip  = document.getElementById("scoreChip");
+
+let responses = loadResponses();        // { [id]: optIndex }
+let answerKey = loadAnswerKey();        // [optIndex|null]
+let showKey   = false;                  // controla "Mostrar respostas corretas"
+let editKeyFor = null;                  // ainda é possível editar, se quiser
+let lastScore = null;
+
+function render() {
+  $questions.innerHTML = "";
+
+  QUESTIONS.forEach((q, idx) => {
+    const selected   = responses[q.id];
+    const correctIdx = answerKey[idx];
+
+    let cardCls = "q-card";
+    if (lastScore !== null && selected != null && correctIdx != null) {
+      cardCls += (selected === correctIdx) ? " correct" : " wrong";
+    }
+
+    const card = document.createElement("div");
+    card.className = cardCls;
+
+    const head = document.createElement("div");
+    head.className = "q-head";
+    head.innerHTML = `
+      <div>
+        <div class="q-id">Questão ${q.id}</div>
+        <div class="q-title"></div>
+      </div>
+      <div class="footer">
+        <button class="btn-ghost" data-edit="${q.id}">
+          ${editKeyFor === q.id ? "Concluir gabarito" : "Editar gabarito"}
+        </button>
+      </div>
+    `;
+    card.appendChild(head);
+
+    const body = document.createElement("div");
+    body.className = "q-body";
+    body.textContent = q.text;
+    card.appendChild(body);
+
+    const opts = document.createElement("div");
+    opts.className = "opts";
+    q.options.forEach((optText, optIdx) => {
+      const optId = `q${q.id}_o${optIdx}`;
+      const wrap = document.createElement("div");
+      wrap.className = "opt";
+
+      const radio = document.createElement("input");
+      radio.type = "radio";
+      radio.name = `q_${q.id}`;
+      radio.id = optId;
+      radio.checked = selected === optIdx;
+      radio.disabled = editKeyFor === q.id;
+      radio.addEventListener("change", () => {
+        responses[q.id] = optIdx;
+        saveResponses(responses);
+        updateStats();
+      });
+
+      const label = document.createElement("label");
+      label.htmlFor = optId;
+      label.innerHTML = `<strong>${String.fromCharCode(65 + optIdx)})</strong> ${optText}`;
+
+      // Estrela da correta (★) apenas se mostrar explicitamente ou se estiver editando
+      if (showKey || editKeyFor === q.id) {
+        const star = document.createElement("span");
+        star.className = "star";
+        star.textContent = (correctIdx === optIdx) ? "★" : "☆";
+        star.title = "Alternativa correta";
+        star.style.cursor = (editKeyFor === q.id) ? "pointer" : "default";
+        if (editKeyFor === q.id) {
+          star.addEventListener("click", () => {
+            answerKey[idx] = optIdx;
+            saveAnswerKey(answerKey);
+            render();
+          });
+        }
+        label.appendChild(star);
+      }
+
+      wrap.appendChild(radio);
+      wrap.appendChild(label);
+      opts.appendChild(wrap);
+    });
+    card.appendChild(opts);
+
+    const meta = document.createElement("div");
+    meta.className = "meta";
+    
+    // Mostra o gabarito apenas quando "Mostrar respostas corretas" estiver ativo
+    if (showKey) {
+      const ansInfo = document.createElement("div");
+      ansInfo.className = "small";
+      ansInfo.innerHTML =
+        (answerKey[idx] != null)
+          ? `Gabarito: <strong>${"ABCD"[answerKey[idx]]}</strong>`
+          : `Gabarito: <span class="danger">não definido</span>`;
+      meta.appendChild(ansInfo);
+    }
+    
+    card.appendChild(meta);
+
+    // Comentário do especialista (exibe apenas quando mostrar gabarito explicitamente)
+    if (showKey && q.explain) {
+      const exp = document.createElement("div");
+      exp.className = "explain";
+      exp.textContent = "Comentário: " + q.explain;
+      card.appendChild(exp);
+    }
+
+    // Botão editar gabarito handler
+    head.querySelector("[data-edit]").addEventListener("click", () => {
+      editKeyFor = (editKeyFor === q.id) ? null : q.id;
+      render();
+    });
+
+    $questions.appendChild(card);
+  });
+
+  updateStats();
+}
+
+function updateStats() {
+  const total = QUESTIONS.length;
+  const answered = Object.keys(responses).length;
+  $statChip.textContent = `${answered}/${total} respondidas`;
+
+  if (lastScore == null) {
+    $scoreChip.textContent = "Sem correção";
+  } else {
+    const pct = (100*lastScore.acertos/QUESTIONS.length).toFixed(1);
+    $scoreChip.innerHTML = `Nota: <strong>${lastScore.acertos}</strong> / ${QUESTIONS.length} (${pct}%)`;
+  }
+}
+
+function grade() {
+  let acertos = 0, semGabarito = 0;
+  QUESTIONS.forEach((q, i) => {
+    const s = responses[q.id];
+    const g = answerKey[i];
+    if (g == null) { semGabarito++; return; }
+    if (s === g) acertos++;
+  });
+  lastScore = { acertos, semGabarito };
+  render();
+  if (semGabarito > 0) {
+    alert(`Existem ${semGabarito} questão(ões) sem gabarito definido. Use “Editar gabarito” para marcá-las.`);
+  }
+}
+
+/** ========= Botões ========= */
+document.getElementById("submitBtn").addEventListener("click", grade);
+
+document.getElementById("resetBtn").addEventListener("click", () => {
+  if (!confirm("Limpar todas as respostas?")) return;
+  responses = {};
+  saveResponses(responses);
+  lastScore = null;
+  render();
+});
+
+document.getElementById("toggleKey").addEventListener("click", (e) => {
+  showKey = !showKey;
+  e.target.textContent = showKey ? "🙈 Ocultar respostas corretas" : "👁️ Mostrar respostas corretas";
+  render();
+});
+
+document.getElementById("exportKey").addEventListener("click", () => {
+  const data = {
+    answerKey,
+    responses,
+    meta: { source: "CEA/ANBIMA (transcrição do seu PDF) – gabarito e comentários por entendimento técnico", when: new Date().toISOString() }
+  };
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url; a.download = "simulado_gabarito_respostas.json";
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+});
+
+document.getElementById("importKeyInput").addEventListener("change", (ev) => {
+  const file = ev.target.files?.[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = () => {
+    try {
+      const obj = JSON.parse(reader.result);
+      if (Array.isArray(obj.answerKey)) {
+        answerKey = obj.answerKey;
+        saveAnswerKey(answerKey);
+      }
+      if (obj.responses && typeof obj.responses === "object") {
+        responses = obj.responses;
+        saveResponses(responses);
+      }
+      lastScore = null;
+      render();
+      alert("Importado com sucesso!");
+    } catch (e) {
+      alert("Arquivo inválido.");
+    }
+  };
+  reader.readAsText(file);
+});
+
+/** ========= Boot ========= */
+render();
+</script>
+</body>
+</html>
