@@ -891,6 +891,62 @@ const QUESTIONS = parseQuestionsFromRaw(RAW);
  * correct: 0=A,1=B,2=C,3=D
  * explain: comentário da correção (entendimento ANBIMA CEA)
  */
+
+// Aplicando o gabarito fornecido
+QUESTIONS.forEach((q, idx) => {
+  const respostas = {
+    1: 0,   // A
+    2: 0,   // A  
+    3: 2,   // C
+    4: 2,   // C
+    5: 0,   // A
+    6: 0,   // a (A)
+    7: 3,   // D
+    8: 2,   // C
+    9: 0,   // A (questão 8 duplicada, usando questão 9)
+    10: 2,  // C
+    11: 0,  // A
+    12: 3,  // D
+    13: 2,  // C
+    14: 1,  // B
+    15: 2,  // C
+    16: 3,  // D
+    17: 0,  // A
+    18: 0,  // A
+    19: 0,  // A
+    20: 2,  // C
+    21: 2,  // C
+    22: 3,  // D
+    23: 0,  // A
+    24: 2,  // C
+    25: 2,  // C
+    26: 2,  // C
+    27: 1,  // B
+    28: 1,  // B
+    29: 2,  // C
+    30: 3,  // D
+    31: 1,  // B
+    32: 2,  // C
+    33: 0,  // A
+    34: 1,  // B
+    35: 0,  // A
+    36: 2,  // C
+    37: 3,  // D
+    38: 2,  // C
+    39: 2,  // C
+    40: 3,  // D
+    41: 1,  // B
+    42: 0,  // A
+    43: 0,  // A
+    44: 1,  // B
+    45: 0,  // A
+    46: 1   // B
+  };
+  
+  if (respostas[q.id] !== undefined) {
+    q.correct = respostas[q.id];
+  }
+});
 /** ========= Persistência ========= */
 const KEY_RESPONSES = "simulado_pdf_respostas";
 const KEY_ANSWERKEY = "simulado_pdf_gabarito";
