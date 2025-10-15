@@ -103,285 +103,546 @@
 </div>
 
 <script>
+
+  const QUESTIONS = [
+  {
+    id: 1,
+    text: `O saldo líquido da Renda Primária no Balanço de Pagamentos representa
+a:`,
+    options: [
+      `A. remuneração dos trabalhadores; renda dos investimentos diretos no país;
+renda dos investidores em carteira; e renda dos ativos de reserva.`,
+      `B. renda obtida pelo capital de curto prazo em investimentos em carteira, renda
+dos investimentos diretos no país; renda dos ativos de reserva; e renda com
+operações de derivativos.`,
+      `C. remuneração dos exportadores; renda dos investimentos realizados no país;
+renda dos investimentos em carteira; e renda dos ativos em reserva.`,
+      `D. remuneração dos exportadores de bens e serviços; e importadores de bens e
+serviços.`
+    ],
+    correct: 0,
+    explain: "Renda Primária = remuneração do trabalho e do capital (IDP, carteira) + reservas; não inclui bens/serviços."
+  },
+  {
+    id: 2,
+    text: `Um investidor adquiriu, a preço de mercado, US Treasury Bonds
+emitidos com cupom de 5,00% a.a. Na data de aquisição, o mercado
+projetou uma taxa de juros de 4,00% a.a., para o mesmo período do título.
+Nesse caso, o título foi negociado:`,
+    options: [
+      "A. acima do valor ao par.",
+      "B. abaixo do valor ao par.",
+      "C. independentemente do valor ao par.",
+      "D. ao par."
+    ],
+    correct: 0,
+    explain: "Cupom (5%) > yield (4%) ⇒ preço com ágio (acima do par)."
+  },
+  {
+    id: 3,
+    text: `Umas das possíveis medidas a serem implementadas pelo Banco Central
+do Brasil (BACEN) para reduzir a quantidade de dinheiro em circulação na
+economia e a exposição das instituições financeiras ao risco de crédito é:`,
+    options: [
+      "A. a contenção dos gastos públicos.",
+      "B. a compra de títulos públicos no Open Market.",
+      "C. o aumento dos depósitos compulsórios.",
+      "D. o aumento da alíquota do Imposto sobre Produtos Industrializados (IPI)."
+    ],
+    correct: 2,
+    explain: "Elevar compulsório retira liquidez e reduz o multiplicador de crédito."
+  },
+  {
+    id: 4,
+    text: `Um investidor, pessoa física, residente e domiciliado no Brasil, estará
+isento da cobrança de Imposto de Renda nos rendimentos distribuídos por
+um Fundo de Investimento Imobiliário (FlI), caso:
+I. as cotas sejam negociadas exclusivamente em mercados de bolsa ou
+balcão organizado.
+II. o FII possua, no mínimo, 100 cotistas.
+III. o cotista possua, no máximo, 10% da totalidade das cotas.
+Está correto o que se afirma em:`,
+    options: [
+      "A. II e III, apenas.",
+      "B. I e Ill, apenas.",
+      "C. I, II e III.",
+      "D. l e lI, apenas."
+    ],
+    correct: 2,
+    explain: "Isenção (PF): negociação em mercado organizado + ≥100 cotistas + nenhum PF ≥10%."
+  },
+  {
+    id: 5,
+    text: `Um investidor de um fundo cambial reclama que não obteve a totalidade
+da expressiva desvalorização ocorrida do real. O mesmo deve ser
+informado de que, além da taxa de administração,`,
+    options: [
+      "A. a elevação do cupom cambial poderá provocar desvalorização da cota.",
+      "B. a existência de fusos horários nos principais mercados financeiros inibe a\ncorreta precificação de ativos denominados em moeda estrangeira.",
+      "C. a redução do cupom cambial poderá ter impacto negativo no valor da cota.",
+      "D. o spread existente entre as cotações de compra e venda de moeda\nestrangeira reduz a rentabilidade do fundo."
+    ],
+    correct: 0,
+    explain: "Cupom cambial mais alto tende a reduzir o valor da cota do fundo cambial."
+  },
+  {
+    id: 6,
+    text: `Um indivíduo, 30 anos de idade, ingressou recentemente em uma
+empresa que oferece a seus funcionários um Fundo de Previdência
+Complementar Multipatrocinado, que possui diversos perfis de carteira de
+investimento. Para que o indivíduo se aposente aos 55 anos, evite o risco
+de déficit técnico e obtenha a menor alíquota de Imposto de Renda sobre a
+reserva, ele deve aderir a um plano de:`,
+    options: [
+      "A. Benefício Definido e optar pelo regime de tributação exclusivo na fonte no\nresgate.",
+      "B. Contribuição Definida e optar pelo regime de tributação definitivo no resgate.",
+      "C. Contribuição Definida e optar pelo regime de tributação compensável no\nresgate.",
+      "D. Benefício Definido e optar pelo regime de tributação progressivo no resgate."
+    ],
+    correct: 1,
+    explain: "Plano CD evita risco atuarial de déficit do BD; tributação definitiva dá previsibilidade."
+  },
+  {
+    id: 7,
+    text: `Com o objetivo de reduzir o risco de uma carteira de ações um investidor
+pretende aplicar 50% de seus recursos na ação X e os 50% restantes nas
+ações Y ou Z. ... (dados e correlações)
+Nesse caso, ... recomendará ... X e a ação`,
+    options: [
+      "A. Y, pois seu beta é inferior ao de Z.",
+      "B. Y ou Z, pois possuem o mesmo coeficiente alfa.",
+      "C. Z, pois seu desvio padrão é menor do que o de Y.",
+      "D. Y, pois sua correlação com X é menor do que a correlação de X com Z."
+    ],
+    correct: 3,
+    explain: "Diversificação melhor com correlação menor/negativa: ρ(X,Y)=-0,40 < 0,90."
+  },
+  {
+    id: 8,
+    text: `Um analista avalia a ação da empresa "Delta" ... (Rf=10% a.a.; Rm=15% a.a.; β=0,85)
+Então, o retorno esperado, ao ano, ... (CAPM) é de:`,
+    options: ["A. 11,25%","B. 22,75%","C. 14,25%","D. 17,25%"],
+    correct: 2,
+    explain: "CAPM: 10% + 0,85×(15%-10%) = 14,25%."
+  },
+  {
+    id: 9,
+    text: `Um investidor qualificado ... quer otimizar impacto tributário.
+Nesse caso ... recomendar:
+I. debêntures incentivadas.
+II. CRI.
+III. cotas de FIDC.
+Está correto o que se afirma em`,
+    options: ["A. I e Ill, apenas.","B. l e ll, apenas.","C. I, II e III.","D. Il e lIl, apenas."],
+    correct: 2,
+    explain: "Combinação usual pró-eficiência tributária: debênture incentivada (PF isenta), CRI, FIDC."
+  },
+  {
+    id: 10,
+    text: `De acordo com a Resolução CVM n° 30 ... suitability não se aplica quando:
+I. PF investidor qualificado (≥R$1 mi e declaração).
+II. PJ de direito público.
+III. Carteira administrada discricionariamente por gestor autorizado.
+Está correto o que se afirma em:`,
+    options: ["A. I, Il e III.","B. II e III, apenas.","C. l e Il, apenas.","D. I e III, apenas."],
+    correct: 0,
+    explain: "As três hipóteses dispensam verificação de adequação."
+  },
+  {
+    id: 11,
+    text: `Mônica decidiu contratar ... VGBL ... maior acumulação em 30 anos e renda vitalícia.
+Na fase de diferimento, ______ taxa de carregamento e ______ rentabilidade; na concessão, ______ reversão do excedente.`,
+    options: [
+      "A. menor – maior - menor",
+      "B. menor – menor - menor",
+      "C. menor – maior - maior",
+      "D. maior – maior – menor"
+    ],
+    correct: 2,
+    explain: "Para acumular mais: menor carregamento, maior rentabilidade e maior reversão do excedente."
+  },
+  {
+    id: 12,
+    text: `Segundo as Regras ... ANBIMA, para o Apreçamento:
+I. regras/metodologias do Administrador Fiduciário devem ser públicas.
+II. Administrador deve divulgar em seu site a versão completa do Manual.
+III. preços/fatores em moeda estrangeira devem ser convertidos via taxa referencial (D2) da B3.
+Está correto o que se afirma em`,
+    options: ["A. I e III, apenas.","B. I, II e III.","C. II e III, apenas.","D. l e II, apenas."],
+    correct: 0,
+    explain: "I e III adequadas; II (manual completo no site) não é regra geral."
+  },
+  {
+    id: 13,
+    text: `Um investidor ... operações a termo na B3:
+I. preço final = valor do ativo + variação do Ibovespa.
+II. contratos podem ser referenciados em USD.
+III. proventos deliberados pertencem ao comprador.
+Está correto APENAS:`,
+    options: ["A. II.","B. I.","C. II e III.","D. III."],
+    correct: 3,
+    explain: "Proventos ao comprador; e há termos com referência cambial (USD)."
+  },
+  {
+    id: 14,
+    text: `Um investidor PF pretende investir em Debênture de Infra; CPR; LCI.
+I. Debênture de Infra pode ter garantia real ou subordinada.
+II. CPR pode ser emitida por produtores/cooperativas e garantida por penhor mercantil.
+III. LCI é título lastreado por créditos imobiliários (hipoteca/alienação).
+Está correto o que se afirma em`,
+    options: ["A. Il e III, apenas.","B. I e Il, apenas.","C. I, II e III.","D. I e III, apenas."],
+    correct: 2,
+    explain: "As três descrições estão corretas."
+  },
+  {
+    id: 15,
+    text: `Figuras I, II e III ... opções em D+0. No exercício o preço ficou abaixo do strike.
+Serão exercidas pelos titulares, apenas`,
+    options: ["A. compra de call.","B. compra de put.","C. compra de call e venda de call.","D. compra de put e compra de call."],
+    correct: 1,
+    explain: "Com S<K, somente o titular de put está ITM."
+  },
+  {
+    id: 16,
+    text: `Como medida de risco em RF, a duration modificada permite estimar`,
+    options: [
+      "A. o período de tempo máximo para recuperação do investimento inicial.",
+      "B. a variação esperada nas taxas de juros, dada uma variação no valor de\nmercado da carteira.",
+      "C. a variação % no valor de mercado da carteira, dada uma variação nas taxas.",
+      "D. o período de tempo durante o qual a carteira está exposta a riscos."
+    ],
+    correct: 2,
+    explain: "É a sensibilidade percentual do preço a pequenas variações de yield."
+  },
+  {
+    id: 17,
+    text: `Um investidor de um fundo cambial reclama ... (repetição didática).
+Além da taxa de administração,`,
+    options: [
+      "A. a existência de fusos horários ...",
+      "B. o spread compra/venda reduz a rentabilidade.",
+      "C. a redução do cupom cambial ...",
+      "D. a elevação do cupom cambial poderá provocar desvalorização da cota."
+    ],
+    correct: 3,
+    explain: "Elevação do cupom cambial tende a desvalorizar a cota."
+  },
+  {
+    id: 18,
+    text: `O aumento das reservas internacionais de um país ... pode ocorrer`,
+    options: [
+      "A. pela manutenção da moeda desvalorizada e superávit em transações correntes.",
+      "B. pelo saldo superavitário dos ativos de reserva da conta financeira.",
+      "C. pela moeda valorizada e superávit das contas capital e financeira.",
+      "D. pelo superávit das contas capital e financeira, apenas."
+    ],
+    correct: 0,
+    explain: "Superávit em transações correntes + fluxo financeiro positivo = mais reservas."
+  },
+  {
+    id: 19,
+    text: `A dívida líquida do setor público`,
+    options: [
+      "A. não financeiro e do Banco Central é financiada pelos setores privado e\nfinanceiro, bem como o resto do mundo.",
+      "B. associada à necessidade de financiamento do setor público são apuradas por\nregime de caixa.",
+      "C. é o estoque líquido de títulos públicos em mercado emitidos pelo Tesouro\nNacional.",
+      "D. inclui o pagamento de juros que incide sobre a dívida fiscal"
+    ],
+    correct: 0,
+    explain: "Consolida governo + BC e é financiada pelos demais setores e exterior."
+  },
+  {
+    id: 20,
+    text: `Um gestor ... swap para modificar de pré para pós-fixada objetiva`,
+    options: [
+      "A. tornar a carteira livre de risco da taxa de juros.",
+      "B. alterar a remuneração para próximo da taxa básica.",
+      "C. atrelar à NTN-F.",
+      "D. retorno próximo à LTN."
+    ],
+    correct: 0,
+    explain: "Receber DI/pagar prefixado aproxima ao CDI e mitiga risco de taxa do book prefixado."
+  },
+  {
+    id: 21,
+    text: `NÃO são exemplos de renda tributável, renda isenta e renda de
+tributação exclusiva/definitiva, respectivamente,`,
+    options: [
+      "A. ganhos de representantes autônomos; rendimentos de LCA; PLR.",
+      "B. pró-labore; rendimentos de LCI; Juros sobre Capital Próprio.",
+      "C. recebimentos de aluguéis; rendimentos de debêntures; previdência complementar.",
+      "D. férias; rendimentos de poupança e 13° salário."
+    ],
+    correct: 3,
+    explain: "Férias (tributável), poupança (isenta), 13º (exclusiva) — sequência correta."
+  },
+  {
+    id: 22,
+    text: `Um investidor ... otimista com PETR4 quer montar uma trava de alta (bull spread) ...
+Nesse caso, ele deverá`,
+    options: [
+      "A. vender put ... e comprar put ... (vencimentos distintos).",
+      "B. comprar call ... e vender put de concorrente ... (vencimentos distintos).",
+      "C. comprar call de PETR4 (X1) e vender call de PETR4 (X2), X1<X2, mesmo vencimento.",
+      "D. vender call ... e comprar call ... X1<X2, mesmo vencimento."
+    ],
+    correct: 2,
+    explain: "Bull spread com calls: compra strike menor e vende strike maior (mesmo vencimento)."
+  },
+  {
+    id: 23,
+    text: `Ao realizar hedge por contrato futuro, a margem é constituída a favor`,
+    options: [
+      "A. da corretora da contraparte.",
+      "B. do investidor contraparte.",
+      "C. da sua própria corretora.",
+      "D. da Câmara B3 (antiga BM&FBOVESPA)."
+    ],
+    correct: 3,
+    explain: "Margens são depositadas na clearing (Câmara B3)."
+  },
+  {
+    id: 24,
+    text: `Segundo o Código ... ANBIMA, o Administrador Fiduciário é responsável
+I. pela constituição, administração, funcionamento e divulgação ...
+II. pela elaboração de todos os documentos ...
+III. pelo processo de PLD/FT dos ativos adquiridos pelos veículos.
+Está correto o que se afirma em:`,
+    options: ["A. I e Il, apenas.","B. I, Il e lII.","C. Il e Ill, apenas.","D. l e lIl, apenas."],
+    correct: 0,
+    explain: "I e II (no âmbito do administrador) — combinação usual; III recai sobre participante/veículo conforme regulação."
+  },
+  {
+    id: 25,
+    text: `Erica ... prefere RF, quer fundo com baixo custo, condomínio aberto, gestão passiva e, se possível, dividendos.
+A indicação é:`,
+    options: ["A. FIP","B. FIDC","C. ETF","D. FII"],
+    correct: 2,
+    explain: "ETF = gestão passiva, baixo custo e diversificação; alguns repassam proventos."
+  },
+  {
+    id: 26,
+    text: `Banco GV ... primeiro FIF (Brasil). Res. CVM 175:
+I. Ativos negociados no Brasil (incl. derivativos) devem ser obrigatoriamente objeto de depósito central.
+II. Em regra, ativos devem ser registrados OU objeto de depósito central junto a instituições autorizadas.
+III. Ativos com liquidação por entrega de produtos devem ser negociados em mercado organizado que garanta liquidação, ou não podem ser adquiridos.
+Está correto APENAS:`,
+    options: ["A. l e Ill.","B. II.","C. II e lIl.","D. I."],
+    correct: 2,
+    explain: "II e III corretas; I (obrigatoriamente depósito central) é excessiva."
+  },
+  {
+    id: 27,
+    text: `Empresa aberta: EBITDA 125 mi; LPA 8,00; Market cap 1 bi; 10 mi ações.
+O P/L é:`,
+    options: ["A. 1,56","B. 100,00","C. 12,50","D. 8,00"],
+    correct: 2,
+    explain: "Preço=1000/10=100; P/L=100/8=12,5."
+  },
+  {
+    id: 28,
+    text: `Aumento da inadimplência de recebíveis de um FIDC afetará, primeiramente, a cota`,
+    options: [
+      "A. Subordinada Mezanino.",
+      "B. Subordinada Júnior.",
+      "C. Sênior - 2ª Série.",
+      "D. Sênior - 1ª Série."
+    ],
+    correct: 1,
+    explain: "Cota subordinada júnior absorve primeiras perdas."
+  },
+  {
+    id: 29,
+    text: `Carteira cambial do banco: VaR USD=R$47.560; VaR EUR=R$40.250; ρ=0,89 (1 dia, 95%).
+O VaR conjunto é`,
+    options: ["A. R$ 82.464,21","B. R$ 84.928,68","C. R$ 85.378,29","D. R$ 91.213,11"],
+    correct: 1,
+    explain: "Com ρ alto, VaR agregado aumenta; valor correto dentre as alternativas: 84.928,68."
+  },
+  {
+    id: 30,
+    text: `Cripto em fundo para investidor qualificado — limite de exposição (uso completo do limite):`,
+    options: ["A. 20%","B. 15%","C. 10%","D. 40%"],
+    correct: 2,
+    explain: "Prática de mercado/regulatória: 10% para fundos destinados a qualificados (salvo regulamento específico)."
+  },
+  {
+    id: 31,
+    text: `FIDC — características das cotas:`,
+    options: [
+      "A. várias classes sênior e apenas uma subordinada.",
+      "B. rating aplica-se apenas às subordinadas.",
+      "C. cedente não pode investir nas cotas.",
+      "D. cota sênior tem preferência em rendimentos e amortização."
+    ],
+    correct: 3,
+    explain: "Preferência de pagamentos da cota sênior; rating usualmente na sênior."
+  },
+  {
+    id: 32,
+    text: `Principal risco específico incorrido por investidores em FIDC é o`,
+    options: [
+      "A. cambial.",
+      "B. de crédito dos devedores subjacentes.",
+      "C. de taxas de juros.",
+      "D. de liquidez."
+    ],
+    correct: 1,
+    explain: "Risco de crédito dos recebíveis (inadimplência) é o núcleo do FIDC."
+  },
+  {
+    id: 33,
+    text: `FIF (Brasil) — Res. CVM 175:
+I. ativos negociados no Brasil (incl. derivativos) devem ser obrigatoriamente objeto de depósito central.
+II. em regra, ativos devem ser registrados em sistema de registro ou objeto de depósito central, em ambos os casos em instituições autorizadas.
+As afirmações I e II estão, respectivamente,`,
+    options: ["A. incorreta e incorreta.","B. correta e correta.","C. incorreta e correta.","D. correta e incorreta."],
+    correct: 2,
+    explain: "I incorreta (exigência absoluta); II correta (registro ou depósito central)."
+  },
+  {
+    id: 34,
+    text: `Banco FRS — primeiro FIF. Administrador é responsável por:
+I. calcular/divulgar cota e PL conforme regulamento.
+II. executar, quanto aos valores sob custódia, somente ordens diretamente vinculadas às operações da classe.
+As afirmações estão, respectivamente,`,
+    options: ["A. correta e incorreta.","B. incorreta e correta.","C. correta e correta.","D. incorreta e incorreta."],
+    correct: 0,
+    explain: "I correta; II não é a forma prevista para atribuições do administrador vs. gestor/custodiante."
+  },
+  {
+    id: 35,
+    text: `FIF com investimentos no exterior — Res. CVM 175:
+I. ativos devem ser auditados por empresa certificada no exterior e acreditada na CVM ...
+II. operações com derivativos no exterior informadas às autoridades locais são investimentos permitidos.
+As afirmações I e II estão, respectivamente,`,
+    options: ["A. incorreta e incorreta.","B. incorreta e correta.","C. correta e incorreta.","D. correta e correta."],
+    correct: 3,
+    explain: "Ambas corretas conforme limites e requisitos da norma."
+  },
+  {
+    id: 36,
+    text: `Empresa brasileira lista recibos em Londres. Deve emitir:`,
+    options: ["A. GDRs","B. ADRs","C. ADSs","D. BDRs"],
+    correct: 0,
+    explain: "Londres: GDR (Global Depositary Receipt). ADR/ADS são EUA; BDR é Brasil."
+  },
+  {
+    id: 37,
+    text: `Bonificação, em ações, é`,
+    options: [
+      "A. aumento da quantidade de ações por exercício do direito de preferência.",
+      "B. distribuição gratuita por incorporação de reservas ao capital.",
+      "C. distribuição gratuita sem alteração do capital, reduzindo VP/Ação.",
+      "D. distribuição gratuita para quem exercer subscrição."
+    ],
+    correct: 1,
+    explain: "Bonificação decorre da capitalização de reservas (aumento do capital) com ações gratuitas."
+  },
+  {
+    id: 38,
+    text: `FIP (PE/VC) são RV e`,
+    options: [
+      "A. não devem indicar membros ao Conselho.",
+      "B. devem participar ativamente sem direito a voto.",
+      "C. não devem deter ações do bloco de controle.",
+      "D. devem participar ativamente das decisões e estratégia."
+    ],
+    correct: 3,
+    explain: "Participação ativa na governança/estratégia é característica do FIP."
+  },
+  {
+    id: 39,
+    text: `Título corporativo (EUA): preço 91,80% do face; YTM 5,60%; venc. 10 anos; cupom 4,375%.
+O current yield é`,
+    options: [
+      "A. menor que a taxa de cupom e maior que o YTM.",
+      "B. igual ao YTM.",
+      "C. maior que a taxa de cupom e menor que o YTM.",
+      "D. maior que o YTM."
+    ],
+    correct: 2,
+    explain: "Preço < par ⇒ current yield > cupom; mas < YTM (que inclui amortização do deságio)."
+  },
+  {
+    id: 40,
+    text: `COE 100% protegido — preço exercício R$149,80; barreira de alta R$228,10; alavancagem 0,3x; sem rent. entre entrada e exercício.
+Desempenho máximo possível:`,
+    options: ["A. 52,27%","B. 47,04%","C. 15,68%","D. 10,30%"],
+    correct: 1,
+    explain: "Pelo payoff do enunciado, o cap indicado é 47,04%."
+  },
+  {
+    id: 41,
+    text: `Diversificação para carteira com Ibovespa Indexado + Long & Short Direcional.
+Estratégia MAIS adequada:`,
+    options: [
+      "A. comprar ADR de empresas brasileiras.",
+      "B. comprar calls do Ibovespa.",
+      "C. vender Ibovespa.",
+      "D. comprar LFT."
+    ],
+    correct: 2,
+    explain: "Vender índice reduz a exposição direcional e a correlação da carteira."
+  },
+  {
+    id: 42,
+    text: `Títulos no mercado norte-americano que implicam risco de reinvestimento de cupons:`,
+    options: ["A. T-Bills e T-Bonds","B. T-Notes e T-Bonds","C. T-Notes e T-Bills","D. T-Bills e TIPS"],
+    correct: 1,
+    explain: "Quem paga cupom tem risco de reinvestimento (Notes e Bonds). T-Bills são zero coupon."
+  },
+  {
+    id: 43,
+    text: `Open Finance + brindes (joias, cruzeiros, carro) para atrair portabilidade.
+Sob o Código ANBIMA de Distribuição, essa prática:`,
+    options: [
+      "A. vai de encontro a princípio por concorrência desleal/condições não equitativas.",
+      "B. vai de encontro por ferir boa-fé, transparência, diligência e lealdade.",
+      "C. não vai de encontro se o cliente não for prejudicado.",
+      "D. não vai de encontro porque agressividade é essencial."
+    ],
+    correct: 1,
+    explain: "Fere princípios de boa-fé, transparência e lealdade."
+  },
+  {
+    id: 44,
+    text: `Gestão: (I) técnica e fundamentalista fazem parte do bottom-up; (II) fundamentalista foca curtíssimo prazo; (III) técnica usa padrões históricos.
+Correto:`,
+    options: ["A. I e III, apenas.","B. I, II e III.","C. l e ll, apenas.","D. Il e Ill, apenas."],
+    correct: 0,
+    explain: "I e III corretas; II é falsa (fundamentalista não foca curtíssimo prazo)."
+  },
+  {
+    id: 45,
+    text: `É uma característica das debêntures simples`,
+    options: [
+      "A. ter agente fiduciário para representar a emissora.",
+      "B. serem vendidas via ofertas públicas ou privadas.",
+      "C. não ter risco de crédito com garantia real.",
+      "D. serem emitidas por bancos de investimento."
+    ],
+    correct: 1,
+    explain: "Podem ser colocadas por oferta pública ou privada; agente fiduciário representa debenturistas."
+  },
+  {
+    id: 46,
+    text: `FII com cotas em bolsa e 120 PFs, ninguém >10%. Os cotistas terão:`,
+    options: [
+      "A. isenção de IR nos rendimentos distribuídos, apenas.",
+      "B. isenção de IR no ganho de capital, apenas.",
+      "C. incidência de IR nos rendimentos e no ganho de capital.",
+      "D. incidência de IR nos rendimentos distribuídos, apenas"
+    ],
+    correct: 0,
+    explain: "Rendimentos mensais isentos (PF) quando requisitos atendidos; ganho de capital na venda é tributado."
+  }
+];
+
 /** ========= Dados das questões =========
  * correct: 0=A,1=B,2=C,3=D
  * explain: comentário da correção (entendimento ANBIMA CEA)
  */
-const QUESTIONS = [
-  {
-    id: 1,
-    text: "O saldo líquido da Renda Primária no Balanço de Pagamentos representa:",
-    options: [
-      "remuneração dos trabalhadores; renda dos investimentos diretos no país; renda dos investidores em carteira; e renda dos ativos de reserva.",
-      "renda obtida pelo capital de curto prazo em investimentos em carteira, renda dos investimentos diretos no país; renda dos ativos de reserva; e renda com operações de derivativos.",
-      "remuneração dos exportadores; renda dos investimentos realizados no país; renda dos investimentos em carteira; e renda dos ativos em reserva.",
-      "remuneração dos exportadores de bens e serviços; e importadores de bens e serviços."
-    ],
-    correct: 0,
-    explain: "Renda Primária: remuneração do trabalho e do capital (IDP, carteira) + remuneração de reservas. Não inclui bens/serviços (isso é Conta de Transações Correntes – bens/serviços)."
-  },
-  {
-    id: 2,
-    text: "Um investidor adquiriu, a preço de mercado, US Treasury Bonds com cupom de 5,00% a.a. e taxa de mercado projetada de 4,00% a.a. Nesse caso, o título foi negociado:",
-    options: ["acima do valor ao par.","abaixo do valor ao par.","independentemente do valor ao par.","ao par."],
-    correct: 0,
-    explain: "Cupom (5%) > yield de mercado (4%) → título com ágio (preço acima do par)."
-  },
-  {
-    id: 3,
-    text: "Uma medida do BACEN para reduzir a quantidade de dinheiro em circulação e a exposição das IFs ao risco de crédito é:",
-    options: ["contenção dos gastos públicos.","compra de títulos públicos no Open Market.","aumento dos depósitos compulsórios.","aumento da alíquota do IPI."],
-    correct: 2,
-    explain: "Elevar compulsório recolhe liquidez do sistema e reduz multiplicador de crédito."
-  },
-  {
-    id: 4,
-    text: "Isenção de IR em rendimentos de FII (PF residente) exige:",
-    options: ["II e III, apenas.","I e III, apenas.","I, II e III.","I e II, apenas."],
-    correct: 2,
-    explain: "Requisitos: negociação em bolsa/balcão organizado; ≥100 cotistas; nenhum PF ≥10%."
-  },
-  {
-    id: 5,
-    text: "Fundo cambial não capturou toda a desvalorização do real. Além da taxa de administração, qual fator reduz a rentabilidade?",
-    options: ["Elevação do cupom cambial pode desvalorizar a cota.","Fusos horários inibem a correta precificação.","Redução do cupom cambial impacta negativamente a cota.","Spread entre compra e venda de moeda reduz rentabilidade."],
-    correct: 0,
-    explain: "A elevação do cupom cambial pode desvalorizar a cota do fundo cambial."
-  },
-  {
-    id: 6,
-    text: "Previdência complementar: para aposentar aos 55, mitigar déficit e menor IR sobre a reserva, o perfil adequado é:",
-    options: ["BD + tributação exclusiva na fonte.","CD + tributação definitiva no resgate.","CD + tributação compensável no resgate.","BD + tributação progressiva no resgate."],
-    correct: 1,
-    explain: "Planos CD evitam risco atuarial de déficit do BD; na CEA, usual priorizar tributação definitiva no resgate para previsibilidade."
-  },
-  {
-    id: 7,
-    text: "Carteira 50% X e 50% (Y ou Z). Dados: σ(X)=3%, β(X)=1; σ(Y)=4,5%, β(Y)=0,8; σ(Z)=2%, β(Z)=1,2; ρ(X,Y)=-0,40; ρ(X,Z)=0,90. Recomenda-se X +:",
-    options: ["Y, pois beta é inferior ao de Z.","Y ou Z, pois possuem o mesmo alfa.","Z, pois σ(Z) < σ(Y).","Y, pois sua correlação com X é menor do que a de Z."],
-    correct: 3,
-    explain: "Diversificação depende de correlação: -0,40 (X,Y) é muito melhor que 0,90 (X,Z), reduzindo risco de carteira."
-  },
-  {
-    id: 8,
-    text: "CAPM (Rf 10%, Rm 15%, β=0,85) – retorno esperado da ação “Delta” ao ano:",
-    options: ["11,25%","22,75%","14,25%","17,25%"],
-    correct: 2,
-    explain: "E[R]=Rf+β(Rm−Rf)=10%+0,85×5%=14,25%."
-  },
-  {
-    id: 9,
-    text: "Res. CVM nº 30 – Situações em que a verificação de adequação (suitability) não se aplica:",
-    options: ["I, II e III.","II e III, apenas.","I e II, apenas.","I e III, apenas."],
-    correct: 0,
-    explain: "Exceções clássicas: PF qualificado com declaração; PJ de direito público; carteira discricionária por gestor autorizado."
-  },
-  {
-    id: 10,
-    text: "VGBL (aportes mensais) visando maior acumulação em 30 anos e renda vitalícia: na fase de diferimento, ______ taxa de carregamento e ______ rentabilidade; na concessão, ______ percentual de reversão do excedente:",
-    options: ["menor – maior – menor","menor – menor – menor","menor – maior – maior","maior – maior – menor"],
-    correct: 2,
-    explain: "Acumular mais: minimizar carregamento e buscar maior rentabilidade; ao contratar renda vitalícia, maior reversão do excedente favorece o assistido."
-  },
-
-  /* ====== Continuação até 46 ====== */
-  { id: 11, text: "ANBIMA – Apreçamento: quais afirmações estão corretas?",
-    options: ["I e III, apenas.","I, II e III.","II e III, apenas.","I e II, apenas."],
-    correct: 1,
-    explain: "Para fundos, precificação segue políticas formais, fontes idôneas e prudência; em geral I, II e III corretas."
-  },
-  { id: 12, text: "Termo de ações na B3 – é correto APENAS:",
-    options: ["II.","I.","II e III.","III."],
-    correct: 2,
-    explain: "Termo pode ter referência cambial (USD) e proventos pertencem ao comprador (com ajustes no preço a termo)."
-  },
-  { id: 13, text: "Debênture Infra; CPR; LCI – está correto o que se afirma em:",
-    options: ["II e III, apenas.","I e II, apenas.","I, II e III.","I e III, apenas."],
-    correct: 2,
-    explain: "Debêntures infra isentas p/ PF; CPRs e LCIs têm regras próprias – conjunto indicado contempla as corretas."
-  },
-  { id: 14, text: "Estratégias com opções (preço do ativo no exercício abaixo do strike). Serão exercidas por seus titulares, apenas:",
-    options: ["compra de call.","compra de put.","compra de call e venda de call.","compra de put e compra de call."],
-    correct: 1,
-    explain: "Se S<K, só o titular de put está in-the-money e exerce."
-  },
-  { id: 15, text: "Duration modificada como medida de risco de uma carteira de RF permite estimar:",
-    options: ["tempo máximo de recuperação do investimento.","variação esperada nas taxas de juros, dada uma variação no valor de mercado.","variação % no valor da carteira, dada uma variação nas taxas.","período de tempo sob riscos significativos."],
-    correct: 2,
-    explain: "Duration modificada ≈ sensibilidade (%ΔPreço) para um Δy pequeno."
-  },
-  { id: 16, text: "Fundo cambial não capturou desvalorização do real (repetição didática). O fator que reduz rentabilidade é:",
-    options: ["Fusos horários inibem correta precificação.","Spread compra/venda de moeda reduz rentabilidade.","Redução do cupom cambial impacta negativamente.","Elevação do cupom cambial desvaloriza cota."],
-    correct: 1,
-    explain: "Novamente: custos/Spreads corroem parte do retorno nominal do câmbio."
-  },
-  { id: 17, text: "Aumento das reservas internacionais ao final do período pode ocorrer:",
-    options: ["moeda desvalorizada + superávit em transações correntes.","superávit dos ativos de reserva da conta financeira.","moeda valorizada + superávit conta capital e financeira.","superávit das contas capital e financeira, apenas."],
-    correct: 2,
-    explain: "Entradas líquidas na conta financeira (e capital) ajudam acumular reservas; valorização também favorece valor em USD."
-  },
-  { id: 18, text: "Dívida líquida do setor público:",
-    options: ["não financeiro + BC é financiada por setor privado, financeiro e resto do mundo.","e a necessidade de financiamento do setor público são apuradas por caixa.","é o estoque líquido de títulos públicos em mercado emitidos pelo Tesouro.","inclui o pagamento de juros sobre a dívida fiscal."],
-    correct: 0,
-    explain: "Definição envolve requerimentos de financiamento líquido do setor público consolidado (governos + BC) com demais setores."
-  },
-  { id: 19, text: "Swap para modificar remuneração de pré para pós-fixada objetiva:",
-    options: ["tornar a carteira livre de risco de juros.","aproximar a remuneração da taxa básica.","atrelar à NTN-F.","retorno próximo à LTN."],
-    correct: 1,
-    explain: "Receber DI/pagar prefixado aproxima retorno do CDI, mitigando risco de taxa de um book prefixado."
-  },
-  { id: 20, text: "Não são exemplos de renda tributável, isenta e exclusiva/definitiva, respectivamente:",
-    options: ["ganhos de representante autônomo; rendimentos de LCA; PLR.","pró-labore; rendimentos de LCI; JCP.","aluguéis; rendimentos de debêntures; previdência complementar.","férias; rendimentos de poupança; 13º salário."],
-    correct: 2,
-    explain: "Aluguéis (tributável), debêntures (isento? não; mas renda fixa tributável; a alternativa correta reflete a classificação esperada no enunciado do PDF)."
-  },
-  { id: 21, text: "Bull spread otimista com PETR4:",
-    options: ["vender put...","comprar call (X1) e vender call (X2), X1<X2, mesmo vencimento.","...","..."],
-    correct: 2,
-    explain: "Trava de alta com calls: compra strike menor e vende strike maior (mesmo vencimento)."
-  },
-  { id: 22, text: "Hedge via contrato futuro – a margem é constituída a favor de:",
-    options: ["corretora da contraparte.","investidor contraparte.","sua própria corretora.","Câmara B3."],
-    correct: 3,
-    explain: "Margens são depositadas na clearing (câmara de compensação), mitigando risco de contraparte."
-  },
-  { id: 23, text: "ANBIMA – Administrador Fiduciário é responsável por:",
-    options: ["I e II, apenas.","I, II e III.","II e III, apenas.","I e III, apenas."],
-    correct: 1,
-    explain: "Administrador responde pela supervisão fiduciária ampla: controles, obrigações de divulgação e conformidade do fundo."
-  },
-  { id: 24, text: "Investidora quer fundo com baixo custo p/diversificar, condomínio aberto, gestão passiva e, se possível, dividendos:",
-    options: ["FIP","FIDC","ETF","FII"],
-    correct: 2,
-    explain: "ETF dá diversificação a baixo custo com gestão passiva; alguns repassam proventos conforme política."
-  },
-  { id: 25, text: "CVM 175 – FIF investindo no Brasil. Está correto APENAS em:",
-    options: ["I e III.","II.","II e III.","I."],
-    correct: 0,
-    explain: "Noções gerais: regras de custódia, registro e limites; combinação I+III (conforme enunciado do caderno)."
-  },
-  { id: 26, text: "EBITDA 125 mi; LPA 8,00; Market cap 1 bi; 10 mi ações. O P/L é:",
-    options: ["1,56","100,00","12,50","8,00"],
-    correct: 2,
-    explain: "Preço por ação=1000/10=100; P/L=100/8=12,5."
-  },
-  { id: 27, text: "Inadimplência em FIDC afeta primeiramente a cota:",
-    options: ["Subordinada Mezanino","Subordinada Júnior","Sênior – 2ª Série","Sênior – 1ª Série"],
-    correct: 1,
-    explain: "Sub júnior absorve primeiro as perdas, protegendo a sênior."
-  },
-  { id: 28, text: "VaR carteira cambial (ρ=0,89) (1 dia; 95%):",
-    options: ["R$ 82.464,21","R$ 84.928,68","R$ 85.378,29","R$ 91.213,11"],
-    correct: 3,
-    explain: "Correlação alta eleva VaR agregado; resultado numérico mais alto dentre opções plausíveis do enunciado."
-  },
-  { id: 29, text: "Limite de cripto em fundos para investidor qualificado (exposição):",
-    options: ["20%","15%","10%","40%"],
-    correct: 0,
-    explain: "Prática usual de mercado para fundos não exclusivos destinados a qualificado: teto de 20% (verifique regulamento específico)."
-  },
-  { id: 30, text: "FIDC – características das cotas:",
-    options: ["várias classes sênior e apenas uma subordinada.","rating aplica-se apenas às subordinadas.","cedente não pode investir nas cotas.","cota sênior tem preferência em rendimentos e amortização."],
-    correct: 3,
-    explain: "Sênior tem prioridade de pagamentos; rating geralmente na sênior."
-  },
-  { id: 31, text: "Risco específico mais relevante em FIDC:",
-    options: ["cambial","crédito dos devedores subjacentes","taxa de juros","liquidez"],
-    correct: 1,
-    explain: "Principal risco é o crédito dos recebíveis lastro (inadimplência)."
-  },
-  { id: 32, text: "CVM 175 – FIF (Brasil). As afirmações I e II estão, respectivamente:",
-    options: ["incorreta e incorreta.","correta e correta.","incorreta e correta.","correta e incorreta."],
-    correct: 3,
-    explain: "De acordo com o enunciado, I correta e II incorreta (ex.: execução de ordens não se limita apenas à classe, depende do regulamento)."
-  },
-  { id: 33, text: "CVM 175 – Administrador do FIF é responsável por (I) divulgar PL/cota na periodicidade do regulamento; (II) executar ordens apenas vinculadas às operações da classe. As afirmações estão:",
-    options: ["correta e incorreta.","incorreta e correta.","correta e correta.","incorreta e incorreta."],
-    correct: 0,
-    explain: "I: correta (divulgação); II: não é assim que a norma estrutura a atribuição do administrador vs. gestor."
-  },
-  { id: 34, text: "CVM 175 – FIF com investimentos no exterior. As afirmações I e II estão:",
-    options: ["incorreta e incorreta.","incorreta e correta.","correta e incorreta.","correta e correta."],
-    correct: 3,
-    explain: "Ambas corretas conforme política de investimento e controles de risco/custódia internacional."
-  },
-  { id: 35, text: "Listagem de recibos de ações em Londres pela empresa brasileira. Deve emitir:",
-    options: ["GDRs","ADRs","ADSs","BDRs"],
-    correct: 0,
-    explain: "Londres: GDR (Global Depositary Receipt). ADR/ADS são para os EUA; BDR é no Brasil."
-  },
-  { id: 36, text: "Bonificação em ações é:",
-    options: [
-      "aumento de ações pelo exercício do direito de preferência.",
-      "distribuição gratuita de ações por incorporação de reservas ao capital.",
-      "distribuição gratuita sem alteração do capital, reduzindo VP/Ação.",
-      "distribuição gratuita para quem exercer subscrição."
-    ],
-    correct: 1,
-    explain: "Bonificação = capitalização de reservas com emissão gratuita aos acionistas."
-  },
-  { id: 37, text: "FIP (PE/VC) são RV e:",
-    options: ["não devem indicar membros ao Conselho.","devem participar ativamente sem direito a voto.","não devem deter ações do bloco de controle.","devem participar ativamente das decisões e estratégia."],
-    correct: 3,
-    explain: "PE/VC atuam ativamente na governança/estratégia (inclusive com assento em conselho)."
-  },
-  { id: 38, text: "Título corporativo nos EUA: preço 91,80% do face; YTM 5,60%; venc. 10 anos; cupom 4,375% a.a. O current yield é:",
-    options: ["menor que a taxa de cupom e maior que o YTM.","igual ao YTM.","maior que a taxa de cupom e menor que o YTM.","maior que o YTM."],
-    correct: 2,
-    explain: "Current yield = cupom/preço. Como preço < par, current yield > cupom; porém < YTM (YTM inclui amortização do desconto)."
-  },
-  { id: 39, text: "COE 100% protegido – exercício e barreira de alta dados. Qual desempenho máximo?",
-    options: ["52,27%","47,04%","15,68%","10,30%"],
-    correct: 1,
-    explain: "Pelo payoff descrito no caderno, o teto (cap) indicado é 47,04%."
-  },
-  { id: 40, text: "Diversificação com carteira Ibovespa Indexado + Long & Short Direcional. A estratégia mais adequada é:",
-    options: ["comprar ADR de empresas brasileiras.","comprar calls de Ibovespa.","vender Ibovespa.","comprar LFT."],
-    correct: 2,
-    explain: "Para reduzir correlação/direcional com o índice, a venda (short) de Ibovespa equilibra o risco de mercado."
-  },
-  { id: 41, text: "Títulos no mercado norte-americano que implicam risco de reinvestimento de cupons:",
-    options: ["T-Bills e T-Bonds","T-Notes e T-Bonds","T-Notes e T-Bills","T-Bills e TIPS"],
-    correct: 1,
-    explain: "Quem paga cupom tem risco de reinvestimento (Notes e Bonds). T-Bills são zero-coupon."
-  },
-  { id: 42, text: "Open Finance + brindes (jóias, cruzeiros, carro) para atrair portabilidade. Sob o Código ANBIMA de Distribuição, essa prática:",
-    options: [
-      "vai de encontro ao princípio por caracterizar concorrência desleal/condições não equitativas.",
-      "vai de encontro por ferir boa-fé, transparência, diligência e lealdade.",
-      "não vai de encontro se o cliente não for prejudicado.",
-      "não vai de encontro porque agressividade é essencial."
-    ],
-    correct: 1,
-    explain: "Ofertas exageradas/macetes de captação ferem princípios de boa-fé, transparência e lealdade."
-  },
-  { id: 43, text: "Gestão: (I) técnica e fundamentalista fazem parte do bottom-up; (II) fundamentalista foca curtíssimo prazo; (III) técnica usa padrões históricos. Correto:",
-    options: ["I e III, apenas.","I, II e III.","I e II, apenas.","II e III, apenas."],
-    correct: 0,
-    explain: "I e III corretas; análise fundamentalista não é focada no curtíssimo prazo (II falsa)."
-  },
-  { id: 44, text: "Debêntures simples – é característica correta:",
-    options: ["ter agente fiduciário para representar a emissora.","vendidas via ofertas públicas ou privadas.","não ter risco de crédito com garantia real.","emitidas por bancos de investimento."],
-    correct: 1,
-    explain: "Podem ser colocadas por oferta pública ou privada; agente fiduciário representa debenturistas (não emissora)."
-  },
-  { id: 45, text: "FII com 120 PFs e ninguém >10% e negociação em bolsa. Nesse caso, os cotistas terão:",
-    options: ["isenção de IR nos rendimentos distribuídos, apenas.","isenção de IR no ganho de capital, apenas.","incidência de IR nos rendimentos e no ganho de capital.","incidência de IR nos rendimentos distribuídos, apenas."],
-    correct: 0,
-    explain: "Atendidos requisitos legais, rendimentos mensais isentos p/ PF; ganho de capital na venda das cotas é tributado."
-  },
-  { id: 46, text: "Grupo quer serviço ‘private’, veículo exclusivo, etc. Sobre requisitos de pessoal/capacidade financeira:",
-    options: [
-      "para constituir veículo exclusivo para planejamento, capacidade ≥ R$ 10 milhões (individual ou coletiva).",
-      "para oferecer private: ≥75% do time de estratégia certificado (CFP/CGA/CGE/CFA).",
-      "se Sidney ou Walter saírem, o grupo fica abaixo do valor necessário.",
-      "se subir para 94% de gerentes com CFP no private, poderá oferecer o serviço."
-    ],
-    correct: 0,
-    explain: "Parâmetro clássico de mercado para veículo exclusivo/estruturas private considera capacidade financeira mínima (p.ex., R$10 mi)."
-  }
-];
-
 /** ========= Persistência ========= */
 const KEY_RESPONSES = "simulado_pdf_respostas";
 const KEY_ANSWERKEY = "simulado_pdf_gabarito";
